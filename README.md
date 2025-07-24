@@ -2,7 +2,7 @@
 
 A modern, real-time telemetry dashboard for Unmanned Surface Vehicles (USV). This system provides comprehensive monitoring capabilities including GPS tracking, camera feeds, and real-time sensor data visualization with an intuitive web interface.
 
-![dashboard](URL-ou-chemin-de-l-image)
+![dashboard](https://github.com/kevinbdx35/USV-telemetry-Rust/blob/main/dashboard.png?raw=true)
 
 
 ## Features
