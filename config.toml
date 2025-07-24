@@ -1,0 +1,56 @@
+# USV Telemetry System Configuration
+
+[application]
+name = "USV Telemetry System"
+version = "0.1.0"
+description = "A modern, real-time telemetry dashboard for Unmanned Surface Vehicles"
+
+[server]
+host = "localhost"
+port = 8000
+cors_enabled = true
+
+[build]
+target = "wasm32-unknown-unknown"
+profile = "release"
+output_dir = "target/wasm32-unknown-unknown/release"
+
+[assets]
+styles = "assets/styles.css"
+html = "index.html"
+wasm = "target/wasm32-unknown-unknown/release/usv_telemetry.wasm"
+
+[telemetry]
+# Mock data update interval in milliseconds
+update_interval = 1000
+
+# Default position (latitude, longitude, altitude)
+default_position = [0.0, 0.0, 0.0]
+
+# Battery warning thresholds
+battery_warning_level = 20
+battery_critical_level = 10
+
+# Engine temperature warning (Celsius)
+engine_temp_warning = 80
+engine_temp_critical = 95
+
+[ui]
+# Color scheme
+primary_color = "#667eea"
+secondary_color = "#764ba2"
+success_color = "#2ed573"
+warning_color = "#ffa502"
+error_color = "#ff4757"
+
+# Animation settings
+animation_duration = "0.3s"
+pulse_interval = "2s"
+
+[features]
+# Enable/disable specific dashboard features
+map_enabled = true
+camera_enabled = true
+telemetry_panel_enabled = true
+status_panel_enabled = true
+real_time_updates = true

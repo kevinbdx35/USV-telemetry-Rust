@@ -1,0 +1,66 @@
+# Rust
+target/
+Cargo.lock
+*.pdb
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Dioxus
+dist/
+.dx/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# Build artifacts
+*.o
+*.obj
+*.a
+*.lib
+
+# Documentation
+doc/
+
+# Dependencies
+node_modules/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*.bak
+*.backup
+
+# System files
+*.pid
+*.seed
+*.lock
+
+# Coverage reports
+coverage/
+*.gcov
+*.lcov
+
+# Profiling
+perf.data*
+*.prof
+
+# Test results
+junit.xml

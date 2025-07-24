@@ -1,0 +1,23 @@
+[package]
+name = "usv_telemetry"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+dioxus = { version = "0.6", features = ["web"], default-features = false }
+dioxus-web = "0.6"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.0", features = ["full"], optional = true }
+uuid = { version = "1.0", features = ["v4", "serde", "js"] }
+chrono = { version = "0.4", features = ["serde"] }
+wasm-bindgen = "0.2"
+web-sys = "0.3"
+js-sys = "0.3"
+gloo-timers = { version = "0.3", features = ["futures"] }
+console_log = "1.0"
+console_error_panic_hook = "0.1"
+log = "0.4"
+
+[features]
+desktop = ["tokio"]

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USV Telemetry Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <div id="main">
+        <div class="dashboard">
+            <!-- Main View -->
+            <div class="main-view">
+                <!-- Camera Card (now main panel) -->
+                <div class="card">
+                    <div class="card-header">Camera Feed</div>
+                    <div class="card-content">
+                        <div class="camera-container">
+                            <div class="camera-grid"></div>
+                            <div class="camera-status">HD • 30fps</div>
+                            <div class="record-indicator"></div>
+                            <div class="camera-placeholder">
+                                <div style="font-size: 48px; margin-bottom: 10px;">📹</div>
+                                <div>Camera Feed</div>
+                                <div style="font-size: 12px; color: #999; margin-top: 10px;">Live video stream active</div>
+                            </div>
+                            <div class="camera-controls">
+                                <button class="control-btn" title="Pan Left">◀</button>
+                                <button class="control-btn" title="Zoom In">+</button>
+                                <button class="control-btn" title="Zoom Out">-</button>
+                                <button class="control-btn" title="Pan Right">▶</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- System Status (now bottom left) -->
+                <div class="card">
+                    <div class="card-header">System Status</div>
+                    <div class="card-content">
+                        <div class="status-panel">
+                            <div class="system-health">
+                                <div class="health-score" id="health-score">98%</div>
+                                <div>System Health</div>
+                            </div>
+
+                            <div class="communication-status">
+                                <div class="signal-bars">
+                                    <div class="signal-bar" style="height: 4px;"></div>
+                                    <div class="signal-bar" style="height: 6px;"></div>
+                                    <div class="signal-bar" style="height: 8px;"></div>
+                                    <div class="signal-bar" style="height: 10px;"></div>
+                                </div>
+                                <span>Signal: <span id="signal-strength">-65</span> dBm</span>
+                            </div>
+
+                            <div class="status-indicators-grid">
+                                <div class="status-indicator" id="engine-status">
+                                    <div class="status-dot"></div>
+                                    <div class="status-text">
+                                        <div class="status-title">Engine</div>
+                                        <div class="status-detail">Running</div>
+                                    </div>
+                                </div>
+
+                                <div class="status-indicator" id="power-status">
+                                    <div class="status-dot"></div>
+                                    <div class="status-text">
+                                        <div class="status-title">Power</div>
+                                        <div class="status-detail">87%</div>
+                                    </div>
+                                </div>
+
+                                <div class="status-indicator" id="comm-status">
+                                    <div class="status-dot"></div>
+                                    <div class="status-text">
+                                        <div class="status-title">Comm</div>
+                                        <div class="status-detail">4G</div>
+                                    </div>
+                                </div>
+
+                                <div class="status-indicator">
+                                    <div class="status-dot"></div>
+                                    <div class="status-text">
+                                        <div class="status-title">GPS</div>
+                                        <div class="status-detail">Lock</div>
+                                    </div>
+                                </div>
+
+                                <div class="status-indicator">
+                                    <div class="status-dot"></div>
+                                    <div class="status-text">
+                                        <div class="status-title">Sensors</div>
+                                        <div class="status-detail">OK</div>
+                                    </div>
+                                </div>
+
+                                <div class="status-indicator">
+                                    <div class="status-dot"></div>
+                                    <div class="status-text">
+                                        <div class="status-title">Fuel</div>
+                                        <div class="status-detail">78%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- USV Map Panel (now top right) -->
+                <div class="card">
+                    <div class="card-header">USV Tracking Map</div>
+                    <div class="card-content">
+                        <div class="map-container">
+                            <div class="map-grid"></div>
+                            <div class="usv-marker" id="usv-marker"></div>
+                            <div class="usv-trail"></div>
+                            <div class="coordinates" id="coordinates">
+                                <div>Lat: <span id="lat">43.123456</span>°</div>
+                                <div>Lon: <span id="lon">-1.654321</span>°</div>
+                                <div>Alt: <span id="alt">2.5</span>m</div>
+                            </div>
+                            <div class="compass" id="compass">045°</div>
+                            <div class="speed-indicator" id="speed">Speed: 12.3 kn</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Telemetry Panel (now bottom right) -->
+                <div class="card">
+                    <div class="card-header">Telemetry Data</div>
+                    <div class="card-content">
+                        <div class="telemetry-panel">
+                            <!-- Position -->
+                            <div class="metric-group">
+                                <h3>Position</h3>
+                                <div class="metric-row">
+                                    <span class="metric-label">Latitude</span>
+                                    <span class="metric-value" id="tel-lat">43.123456°</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Longitude</span>
+                                    <span class="metric-value" id="tel-lon">-1.654321°</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Altitude</span>
+                                    <span class="metric-value" id="tel-alt">2.5m</span>
+                                </div>
+                            </div>
+
+                            <!-- Velocity -->
+                            <div class="metric-group">
+                                <h3>Velocity</h3>
+                                <div class="metric-row">
+                                    <span class="metric-label">Speed</span>
+                                    <span class="metric-value" id="tel-speed">12.3 kn</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Heading</span>
+                                    <span class="metric-value" id="tel-heading">045°</span>
+                                </div>
+                            </div>
+
+                            <!-- Battery -->
+                            <div class="metric-group">
+                                <h3>Battery</h3>
+                                <div class="metric-row">
+                                    <span class="metric-label">Level</span>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span class="metric-value good" id="battery-level">87%</span>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="battery-bar" style="width: 87%; background: #2ed573;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Voltage</span>
+                                    <span class="metric-value" id="battery-voltage">12.4V</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Temperature</span>
+                                    <span class="metric-value" id="battery-temp">24.5°C</span>
+                                </div>
+                            </div>
+
+                            <!-- Engine -->
+                            <div class="metric-group">
+                                <h3>Engine</h3>
+                                <div class="metric-row">
+                                    <span class="metric-label">RPM</span>
+                                    <span class="metric-value" id="engine-rpm">2450</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Throttle</span>
+                                    <span class="metric-value" id="engine-throttle">65%</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Fuel</span>
+                                    <span class="metric-value good" id="engine-fuel">78.2%</span>
+                                </div>
+                            </div>
+
+                            <!-- Sensors -->
+                            <div class="metric-group">
+                                <h3>Sensors</h3>
+                                <div class="metric-row">
+                                    <span class="metric-label">Water Temp</span>
+                                    <span class="metric-value" id="water-temp">18.3°C</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Air Temp</span>
+                                    <span class="metric-value" id="air-temp">22.1°C</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Humidity</span>
+                                    <span class="metric-value" id="humidity">65.4%</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Pressure</span>
+                                    <span class="metric-value" id="pressure">1013.2 hPa</span>
+                                </div>
+                            </div>
+
+                            <div class="timestamp" id="timestamp">
+                                Last Update: <span id="last-update">--:--:-- UTC</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulation de données en temps réel
+        let telemetryData = {
+            position: { latitude: 43.123456, longitude: -1.654321, altitude: 2.5 },
+            velocity: { speed: 12.3, heading: 45 },
+            battery: { level: 87, voltage: 12.4, temperature: 24.5 },
+            engine: { rpm: 2450, throttle: 65, fuel: 78.2 },
+            sensors: {
+                waterTemp: 18.3,
+                airTemp: 22.1,
+                humidity: 65.4,
+                pressure: 1013.2
+            },
+            communication: { signalStrength: -65 }
+        };
+
+        // Centre de référence pour la carte (position initiale)
+        const mapCenter = {
+            latitude: telemetryData.position.latitude,
+            longitude: telemetryData.position.longitude
+        };
+
+        // Fonction pour convertir lat/lon en coordonnées pixel sur la carte
+        function latLonToPixel(lat, lon, mapWidth, mapHeight) {
+            // Calcul de l'écart par rapport au centre
+            const latDiff = lat - mapCenter.latitude;
+            const lonDiff = lon - mapCenter.longitude;
+            
+            // Conversion approximative (1 degré ≈ 111 km)
+            // Échelle : 1 pixel = ~10 mètres
+            const pixelsPerDegree = 1000; // Ajustable selon le zoom souhaité
+            
+            const x = (mapWidth / 2) + (lonDiff * pixelsPerDegree);
+            const y = (mapHeight / 2) - (latDiff * pixelsPerDegree); // Y inversé
+            
+            return { x, y };
+        }
+
+        function updateTelemetry() {
+            // Simule de légères variations
+            telemetryData.position.latitude += (Math.random() - 0.5) * 0.0001;
+            telemetryData.position.longitude += (Math.random() - 0.5) * 0.0001;
+            telemetryData.velocity.speed = 10 + Math.random() * 10;
+            telemetryData.velocity.heading = (telemetryData.velocity.heading + Math.random() * 2 - 1) % 360;
+            telemetryData.battery.level = Math.max(20, telemetryData.battery.level + (Math.random() - 0.5) * 0.1);
+            telemetryData.engine.rpm = 2000 + Math.random() * 1000;
+            telemetryData.sensors.waterTemp = 15 + Math.random() * 10;
+
+            // Met à jour l'interface
+            document.getElementById('lat').textContent = telemetryData.position.latitude.toFixed(6);
+            document.getElementById('lon').textContent = telemetryData.position.longitude.toFixed(6);
+            document.getElementById('alt').textContent = telemetryData.position.altitude.toFixed(1);
+            document.getElementById('compass').textContent = Math.round(telemetryData.velocity.heading) + '°';
+            document.getElementById('speed').textContent = 'Speed: ' + telemetryData.velocity.speed.toFixed(1) + ' kn';
+
+            // Télémétrie
+            document.getElementById('tel-lat').textContent = telemetryData.position.latitude.toFixed(6) + '°';
+            document.getElementById('tel-lon').textContent = telemetryData.position.longitude.toFixed(6) + '°';
+            document.getElementById('tel-alt').textContent = telemetryData.position.altitude.toFixed(1) + 'm';
+            document.getElementById('tel-speed').textContent = telemetryData.velocity.speed.toFixed(1) + ' kn';
+            document.getElementById('tel-heading').textContent = Math.round(telemetryData.velocity.heading) + '°';
+            document.getElementById('battery-level').textContent = Math.round(telemetryData.battery.level) + '%';
+            document.getElementById('battery-bar').style.width = telemetryData.battery.level + '%';
+            document.getElementById('engine-rpm').textContent = Math.round(telemetryData.engine.rpm);
+            document.getElementById('water-temp').textContent = telemetryData.sensors.waterTemp.toFixed(1) + '°C';
+
+            // Timestamp
+            document.getElementById('last-update').textContent = new Date().toISOString().substr(11, 8) + ' UTC';
+
+            // Position et rotation du marqueur USV
+            const marker = document.getElementById('usv-marker');
+            const mapContainer = document.querySelector('.map-container');
+            const mapRect = mapContainer.getBoundingClientRect();
+            
+            // Recalcule le centre de la carte pour suivre l'USV
+            mapCenter.latitude = telemetryData.position.latitude;
+            mapCenter.longitude = telemetryData.position.longitude;
+            
+            // Position le marqueur au centre de la carte (suit l'USV)
+            marker.style.left = '50%';
+            marker.style.top = '50%';
+            marker.style.transform = `translate(-50%, -50%) rotate(${telemetryData.velocity.heading}deg)`;
+        }
+
+        // Met à jour toutes les secondes
+        setInterval(updateTelemetry, 1000);
+        
+        // Initialisation
+        updateTelemetry();
+        
+        console.log('🚤 USV Telemetry Dashboard loaded successfully (Static Version)');
+    </script>
+</body>
+</html>
